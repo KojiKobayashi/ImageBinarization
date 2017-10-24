@@ -51,9 +51,9 @@ TEST(NatBinarization, CreateLabelCountHistogramTest)
 
 TEST(NatBinarization, ALLPixelsAre0Or255)
 {
-    auto fileName = "images/Lenna.png";
+    const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
-    auto dst = src.clone();
+    cv::Mat dst;
     NatBinarization::Binarize(src, dst);
 
     auto area = src.rows * src.cols;
@@ -66,4 +66,14 @@ TEST(NatBinarization, ALLPixelsAre0Or255)
     cv::destroyAllWindows();
     //*/
     EXPECT_EQ(area, blackCount + whiteCount);
+}
+
+TEST(NatBinarization, ErrCaseTest)
+{
+    cv::Mat src, dst;
+    const auto fileName = "images/Lenna.png";
+
+    // 8UC1 only
+    src = cv::imread(fileName, cv::IMREAD_COLOR);
+    ASSERT_THROW(NatBinarization::Binarize(src, dst), std::invalid_argument);
 }

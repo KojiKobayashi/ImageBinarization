@@ -171,6 +171,9 @@ namespace DetectRectangles {
 
     inline void NatBinarization::Binarize(const cv::Mat &src, cv::Mat &dst)
     {
+        if (src.type() != CV_8UC1)
+            throw std::invalid_argument("src should be 8CU1.");
+
         int hist[256];
         CreateLabelCountHistogram(src, hist);
 
