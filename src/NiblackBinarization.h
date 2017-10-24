@@ -9,15 +9,16 @@ namespace ImageBinarization
     class NiblackBinarization
     {
     public:
-        static void Binarize(cv::Mat &src, cv::Mat &dst, double k, double kernelSize);
+        static void Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k);
     };
 
-    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, double k, double kernelSize)
+    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k = -0.2)
     {
-        // TODO:kernelSize is add
+        if (kernelSize <= 2)
+            throw std::invalid_argument("kernelSize should be >= 3.");
 
-        cv::namedWindow("src");
-        cv::imshow("src", src);
+        if (src.type() != CV_8UC1)
+            throw std::invalid_argument("src type should be CV_8UC1.");
 
         auto margin = (kernelSize / 2);
         cv::Mat border;
