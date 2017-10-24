@@ -4,10 +4,8 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace Sansan {
-namespace RD {
-namespace DetectRectangles {
-
+namespace ImageBinarization
+{
     class NatBinarization
     {
     public:
@@ -238,8 +236,6 @@ namespace DetectRectangles {
 
         return  th;
     }
-}
-}
 }
 
 #endif // _NAT_BINARIZATION_H_
