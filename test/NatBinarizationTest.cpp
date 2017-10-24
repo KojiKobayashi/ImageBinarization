@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include "../src/NatBinarization.h"
 
-using namespace Sansan::RD::DetectRectangles;
+using namespace ImageBinarization;
 
 class NatBinarizationForTest:NatBinarization
 {
