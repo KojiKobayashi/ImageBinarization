@@ -21,20 +21,34 @@ namespace DetectRectangles {
         static int OtshToHistogram(int(&hist)[256]);
     };
 
-    inline int NatBinarization::GetBaseLabel(const int label, std::map<int, int> &baseLabels)
+    inline void NatBinarization::Binarize(const cv::Mat &src, cv::Mat &dst)
     {
-        auto baseLabel1 = label;
-        while (baseLabel1 >= 0)
+        if (src.type() != CV_8UC1)
+            throw std::invalid_argument("src should be 8CU1.");
+
+        int hist[256];
+        CreateLabelCountHistogram(src, hist);
+
+        auto max = 0;
+        for (auto i = 0; i < 256; i++)
         {
-            baseLabel1 = baseLabels[baseLabel1];
+            if (hist[i] > max)
+                max = hist[i];
+        }
+        for (auto i = 0; i < 256; i++)
+        {
+            hist[i] = (hist[i] * 255) / max;
         }
 
-        return -1 * baseLabel1;
+        auto th = OtshToHistogram(hist);
+        cv::threshold(src, dst, th, 255, CV_THRESH_BINARY);
+        return;
     }
 
     inline void NatBinarization::CreateLabelCountHistogram(const cv::Mat& src, int(& hist)[256])
     {
         // bin map 作成
+        // <0:end point, >=0:next pixel position with same bin
         int startPtr[256];
         int endPtr[256];
         for (auto i = 0; i < 256; i++)
@@ -169,38 +183,15 @@ namespace DetectRectangles {
         }
     }
 
-    inline void NatBinarization::Binarize(const cv::Mat &src, cv::Mat &dst)
+    inline int NatBinarization::GetBaseLabel(const int label, std::map<int, int> &baseLabels)
     {
-        if (src.type() != CV_8UC1)
-            throw std::invalid_argument("src should be 8CU1.");
-
-        int hist[256];
-        CreateLabelCountHistogram(src, hist);
-
-        auto max = 0;
-        for (auto i = 0; i < 256; i++)
+        auto baseLabel1 = label;
+        while (baseLabel1 >= 0)
         {
-            if (hist[i] > max)
-                max = hist[i];
-        }
-        for (auto i = 0; i < 256; i++)
-        {
-            hist[i] = (hist[i] * 255) / max;
+            baseLabel1 = baseLabels[baseLabel1];
         }
 
-        /*
-        std::ofstream myfile;
-        myfile.open("example.txt");
-        for (auto i = 0; i < 256; i++)
-        {
-            myfile << i << " " << hist[i] << std::endl;
-        }
-        myfile.close();
-        */
-
-        auto th = OtshToHistogram(hist);
-        cv::threshold(src, dst, th, 255, CV_THRESH_BINARY);
-        return;
+        return -1 * baseLabel1;
     }
 
     inline int NatBinarization::OtshToHistogram(int(&hist)[256])
