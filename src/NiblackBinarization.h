@@ -14,7 +14,7 @@ namespace ImageBinarization
 
     inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k = -0.2)
     {
-        if (kernelSize <= 2)
+        if (kernelSize < 3)
             throw std::invalid_argument("kernelSize should be >= 3.");
 
         if (src.type() != CV_8UC1)
@@ -29,6 +29,8 @@ namespace ImageBinarization
 
         dst = cv::Mat(src.rows, src.cols, CV_8UC1);
         auto kernelArea = (double)(kernelSize*kernelSize);
+        auto invKernelArea = 1.0 / kernelArea;
+
         for (auto i = 0; i < dst.rows; i++)
         {
             auto *pTl = sum.ptr<int>(i);
@@ -49,10 +51,11 @@ namespace ImageBinarization
                 auto sumValue = *pBr + *pTl - *pBl - *pTr;
                 auto sqSumValue = *pBr2 + *pTl2 - *pBl2 - *pTr2;
 
-                // TODO:speedup
-                auto mean = sumValue / kernelArea;
-                auto th = mean + k * sqrt(sqSumValue / kernelArea - mean * mean);
 
+                auto mean = sumValue *invKernelArea;
+                auto sigma = sqSumValue * invKernelArea - mean * mean;
+                sigma = sigma < 0.0 ? 0.0 : sqrt(sigma);
+                auto th = mean + k * sigma;
                 *pDst = double(*pSrc) > th ? 255U : 0U;
 
                 pTl++;
@@ -70,6 +73,5 @@ namespace ImageBinarization
 
         return;
     }
-
 }
 #endif // _NIBLACK_BINARIZATION_H_
