@@ -9,10 +9,18 @@ namespace ImageBinarization
     class NiblackBinarization
     {
     public:
-        static void Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k);
+        /// <summary>
+        /// Niblack Binarization
+        /// </summary>
+        /// <param name="src">input 8UC1 image</param>
+        /// <param name="dst">output 8UC1 image</param>
+        /// <param name="kernelSize">kernel size >= 3. If this size is even, 1 is added. </param>
+        /// <param name="k">Niblack parameter, -0.2 default.</param>
+        /// <returns></returns>
+        static void Binarize(cv::Mat &src, cv::Mat &dst, int kernelSize, double k);
     };
 
-    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k = -0.2)
+    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, int kernelSize, double k = -0.2)
     {
         if (kernelSize < 3)
             throw std::invalid_argument("kernelSize should be >= 3.");
@@ -21,6 +29,7 @@ namespace ImageBinarization
             throw std::invalid_argument("src type should be CV_8UC1.");
 
         auto margin = (kernelSize / 2);
+        kernelSize = 2 * margin + 1;
         cv::Mat border;
         cv::copyMakeBorder(src, border, margin, margin, margin, margin, cv::BORDER_REFLECT);
 
