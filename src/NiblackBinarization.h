@@ -9,10 +9,18 @@ namespace ImageBinarization
     class NiblackBinarization
     {
     public:
-        static void Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k);
+        /// <summary>
+        /// Niblack Binarization
+        /// </summary>
+        /// <param name="src">input 8UC1 image</param>
+        /// <param name="dst">output 8UC1 image</param>
+        /// <param name="kernelSize">kernel size >= 3. If this size is even, 1 is added. </param>
+        /// <param name="k">Niblack parameter, -0.2 default.</param>
+        /// <returns></returns>
+        static void Binarize(cv::Mat &src, cv::Mat &dst, int kernelSize, double k);
     };
 
-    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, double kernelSize, double k = -0.2)
+    inline void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, int kernelSize, double k = -0.2)
     {
         if (kernelSize < 3)
             throw std::invalid_argument("kernelSize should be >= 3.");
