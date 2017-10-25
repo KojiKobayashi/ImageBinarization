@@ -4,22 +4,27 @@
 
 using namespace ImageBinarization;
 
-TEST(NiblackBinarization, ALLPixelsAre0Or255)
+TEST(NiblackBinarization, NormalTest)
 {
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
     cv::Mat dst;
     NiblackBinarization::Binarize(src, dst, 10);
 
-    auto area = src.rows * src.cols;
-    auto blackCount = area - cv::countNonZero(dst);
-    auto whiteCount = area - cv::countNonZero(~dst);
     /*
     cv::namedWindow("bin");
     cv::imshow("bin", dst);
     cv::waitKey();
     cv::destroyAllWindows();
     //*/
+
+    ASSERT_EQ(src.rows, dst.rows);
+    ASSERT_EQ(src.cols, dst.cols);
+    ASSERT_EQ(CV_8UC1, dst.type());
+
+    auto area = src.rows * src.cols;
+    auto blackCount = area - cv::countNonZero(dst);
+    auto whiteCount = area - cv::countNonZero(~dst);
     EXPECT_EQ(area, blackCount + whiteCount);
 }
 
