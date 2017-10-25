@@ -29,6 +29,7 @@ namespace ImageBinarization
             throw std::invalid_argument("src type should be CV_8UC1.");
 
         auto margin = (kernelSize / 2);
+        kernelSize = 2 * margin + 1;
         cv::Mat border;
         cv::copyMakeBorder(src, border, margin, margin, margin, margin, cv::BORDER_REFLECT);
 
