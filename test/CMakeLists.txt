@@ -5,7 +5,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 include(gtest.cmake)
 
-find_package(OpenCV 3.2.0 REQUIRED)
+find_package(OpenCV REQUIRED)
+if(OpenCV_VERSION VERSION_LESS "3.0.0")
+  message(FATAL_ERROR "ERROR: Can't find OpenCV 3.0.0+")
+endif()
 
 # Generate executable file
 add_executable(Test
