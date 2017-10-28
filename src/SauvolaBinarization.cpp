@@ -2,6 +2,15 @@
 
 namespace ImageBinarization
 {
+    /// <summary>
+    /// SauvolaBinarization Binarization
+    /// </summary>
+    /// <param name="src">input 8UC1 image</param>
+    /// <param name="dst">output 8UC1 image</param>
+    /// <param name="kernelSize">kernel size >= 3</param>
+    /// <param name="k">Niblack parameter</param>
+    /// <param name = "r">r value, usually 64 or 128< / param>
+    /// <returns></returns>
     void SauvolaBinarization::Binarize(const cv::Mat &src, cv::Mat &dst, int kernelSize, double k, double r)
     {
         if (kernelSize < 3)
