@@ -10,4 +10,5 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 add_library(ImageBinarization STATIC
 	NatBinarization.cpp
 	NiblackBinarization.cpp
+	SauvolaBinarization.cpp
 )
