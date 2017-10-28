@@ -1,22 +1,26 @@
-#include "NiblackBinarization.h"
+#include "SauvolaBinarization.h"
 
 namespace ImageBinarization
 {
     /// <summary>
-    /// Niblack Binarization
+    /// SauvolaBinarization Binarization
     /// </summary>
     /// <param name="src">input 8UC1 image</param>
     /// <param name="dst">output 8UC1 image</param>
-    /// <param name="kernelSize">kernel size >= 3. If this size is even, 1 is added. </param>
-    /// <param name="k">Niblack parameter, -0.2 default.</param>
+    /// <param name="kernelSize">kernel size >= 3</param>
+    /// <param name="k">Niblack parameter</param>
+    /// <param name = "r">r value, usually 64 or 128< / param>
     /// <returns></returns>
-    void NiblackBinarization::Binarize(cv::Mat &src, cv::Mat &dst, int kernelSize, double k)
+    void SauvolaBinarization::Binarize(const cv::Mat &src, cv::Mat &dst, int kernelSize, double k, double r)
     {
         if (kernelSize < 3)
             throw std::invalid_argument("kernelSize should be >= 3.");
 
         if (src.type() != CV_8UC1)
             throw std::invalid_argument("src type should be CV_8UC1.");
+
+        if (!(r > 0.0))
+            throw std::invalid_argument("r should be > 0.0.");
 
         auto margin = (kernelSize / 2);
         kernelSize = 2 * margin + 1;
@@ -29,6 +33,7 @@ namespace ImageBinarization
         dst = cv::Mat(src.rows, src.cols, CV_8UC1);
         auto kernelArea = (double)(kernelSize*kernelSize);
         auto invKernelArea = 1.0 / kernelArea;
+        auto invR = 1.0 / r;
 
         for (auto i = 0; i < dst.rows; i++)
         {
@@ -50,11 +55,11 @@ namespace ImageBinarization
                 auto sumValue = *pBr + *pTl - *pBl - *pTr;
                 auto sqSumValue = *pBr2 + *pTl2 - *pBl2 - *pTr2;
 
-
                 auto mean = sumValue *invKernelArea;
                 auto sigma = sqSumValue * invKernelArea - mean * mean;
                 sigma = sigma < 0.0 ? 0.0 : sqrt(sigma);
-                auto th = mean + k * sigma;
+
+                auto th = mean *(1.0 + k * (sigma * invR - 1.0));
                 *pDst = double(*pSrc) > th ? 255U : 0U;
 
                 pTl++;
