@@ -9,7 +9,7 @@ TEST(SauvolaBinarization, NormalTest)
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
     cv::Mat dst;
-    SauvolaBinarization::Binarize(src, dst, 10);
+    SauvolaBinarization::Binarize(src, dst, 10, 0.2);
 
     /*
     cv::namedWindow("bin");
@@ -28,21 +28,31 @@ TEST(SauvolaBinarization, NormalTest)
     EXPECT_EQ(area, blackCount + whiteCount);
 }
 
-TEST(NiblackBinarization, MinKernelSizeTest)
+TEST(SauvolaBinarization, MinKernelSizeTest)
 {
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
     cv::Mat dst;
 
-    ASSERT_THROW(SauvolaBinarization::Binarize(src, dst, 2), std::invalid_argument);
-    ASSERT_NO_THROW(SauvolaBinarization::Binarize(src, dst, 3));
+    ASSERT_THROW(SauvolaBinarization::Binarize(src, dst, 2, 0.2), std::invalid_argument);
+    ASSERT_NO_THROW(SauvolaBinarization::Binarize(src, dst, 3, 0.2));
 }
 
-TEST(NiblackBinarization, ShouldSrcMatCV8UC1)
+TEST(SauvolaBinarization, MinRTest)
+{
+    const auto fileName = "images/Lenna.png";
+    auto src = cv::imread(fileName, 0);
+    cv::Mat dst;
+
+    ASSERT_THROW(SauvolaBinarization::Binarize(src, dst, 10, 0.2, 0.0), std::invalid_argument);
+    ASSERT_NO_THROW(SauvolaBinarization::Binarize(src, dst, 10, 0.2, 0.01));
+}
+
+TEST(SauvolaBinarization, ShouldSrcMatCV8UC1)
 {
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, cv::IMREAD_COLOR);
     cv::Mat dst;
 
-    ASSERT_THROW(SauvolaBinarization::Binarize(src, dst, 10, -0.2), std::invalid_argument);
+    ASSERT_THROW(SauvolaBinarization::Binarize(src, dst, 10, 0.2), std::invalid_argument);
 }
