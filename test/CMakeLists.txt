@@ -14,7 +14,8 @@ endif()
 add_executable(Test
 	${CMAKE_CURRENT_SOURCE_DIR}/NatBinarizationTest.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NiblackBinarizationTest.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/SauvolaBinarizationTest.cpp)
+	${CMAKE_CURRENT_SOURCE_DIR}/SauvolaBinarizationTest.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/NickBinarizationTest.cpp)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
