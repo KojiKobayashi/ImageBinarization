@@ -10,6 +10,7 @@ namespace ImageBinarization
     {
     public:
         static void Binarize(const cv::Mat &src, cv::Mat &dst, int kernelSize, double k);
+        static double Binarize(const cv::Mat &src, cv::Mat &dst, int kernelSize);
     };
 }
 
