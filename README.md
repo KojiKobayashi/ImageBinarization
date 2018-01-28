@@ -1,6 +1,9 @@
 # ImageBinarization
 Image Binarization with OpenCV
 
+ * NICK Binarization
+ 	* [Comparison of Niblack inspired Binarization methods for ancient documents](https://www.researchgate.net/publication/221253803_Comparison_of_Niblack_inspired_Binarization_Methods_for_Ancient_Documents), (2009).
+ 	
  * Niblack Binarization
  	*  An Introduction to Digital Image Processing. Prentice Hall, Englewood Cliffs, (1986). 
 
