@@ -11,7 +11,7 @@ TEST(NickBinarization, NormalTest)
     cv::Mat dst;
     NickBinarization::Binarize(src, dst, 10, -0.14);
 
-    ///*
+    /*
     cv::namedWindow("bin");
     cv::imshow("bin", dst);
     cv::waitKey();
