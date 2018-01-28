@@ -11,7 +11,7 @@ TEST(NickBinarization, NormalTest)
     cv::Mat dst;
     NickBinarization::Binarize(src, dst, 10, -0.14);
 
-    ///*
+    /*
     cv::namedWindow("bin");
     cv::imshow("bin", dst);
     cv::waitKey();
@@ -54,7 +54,7 @@ TEST(NickBinarization, NormalTestNonPara)
     cv::Mat dst;
     auto k = NickBinarization::Binarize(src, dst, 10);
 
-    ///*
+    /*
     cv::namedWindow("bin");
     cv::imshow("bin", dst);
     cv::waitKey();
@@ -64,8 +64,6 @@ TEST(NickBinarization, NormalTestNonPara)
     ASSERT_EQ(src.rows, dst.rows);
     ASSERT_EQ(src.cols, dst.cols);
     ASSERT_EQ(CV_8UC1, dst.type());
-    ASSERT_GE(k, 0);
-    ASSERT_LE(k, 255);
 
     auto area = src.rows * src.cols;
     auto blackCount = area - cv::countNonZero(dst);

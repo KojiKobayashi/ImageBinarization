@@ -149,8 +149,8 @@ namespace ImageBinarization
         }
 
         auto th = NatBinarization::Binarize(thImg, dst);
+        auto k = th * rangeK / 255.0 + minK;
 
-        // TODO:should return niblack parameter
-        return th;
+        return k;
     }
 }
