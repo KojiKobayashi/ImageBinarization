@@ -9,7 +9,7 @@ namespace ImageBinarization
     class NatBinarization
     {
     public:
-        static void Binarize(const cv::Mat &src, cv::Mat &dst);
+        static int Binarize(const cv::Mat &src, cv::Mat &dst);
 
     protected:
         static void CreateLabelCountHistogram(const cv::Mat& src, int(&hist)[256]);

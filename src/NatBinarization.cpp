@@ -7,8 +7,8 @@ namespace ImageBinarization
     /// </summary>
     /// <param name="src">input 8UC1 image</param>
     /// <param name="dst">output 8UC1 image</param>
-    /// <returns></returns>
-    void NatBinarization::Binarize(const cv::Mat &src, cv::Mat &dst)
+    /// <returns>threashold value</returns>
+    int NatBinarization::Binarize(const cv::Mat &src, cv::Mat &dst)
     {
         if (src.type() != CV_8UC1)
             throw std::invalid_argument("src should be 8CU1.");
@@ -29,7 +29,7 @@ namespace ImageBinarization
 
         auto th = OtshToHistogram(hist);
         cv::threshold(src, dst, th, 255, CV_THRESH_BINARY);
-        return;
+        return th;
     }
 
     void NatBinarization::CreateLabelCountHistogram(const cv::Mat& src, int(&hist)[256])

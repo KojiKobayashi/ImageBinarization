@@ -54,7 +54,7 @@ TEST(NatBinarization, NormalTest)
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
     cv::Mat dst;
-    NatBinarization::Binarize(src, dst);
+    auto k = NatBinarization::Binarize(src, dst);
 
     /*
     cv::namedWindow("bin");
@@ -66,6 +66,8 @@ TEST(NatBinarization, NormalTest)
     ASSERT_EQ(src.rows, dst.rows);
     ASSERT_EQ(src.cols, dst.cols);
     ASSERT_EQ(CV_8UC1, dst.type());
+    ASSERT_GE(k, 0);
+    ASSERT_LE(k, 255);
 
     auto area = src.rows * src.cols;
     auto blackCount = area - cv::countNonZero(dst);
