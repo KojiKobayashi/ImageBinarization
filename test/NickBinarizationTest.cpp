@@ -47,7 +47,7 @@ TEST(NickBinarization, ShouldSrcMatCV8UC1)
     ASSERT_THROW(NickBinarization::Binarize(src, dst, 10, -0.14), std::invalid_argument);
 }
 
-TEST(NickBinarization, NormalTestNonPara)
+TEST(NickBinarization, NonParaNickTest)
 {
     const auto fileName = "images/Lenna.png";
     auto src = cv::imread(fileName, 0);
@@ -69,4 +69,13 @@ TEST(NickBinarization, NormalTestNonPara)
     auto blackCount = area - cv::countNonZero(dst);
     auto whiteCount = area - cv::countNonZero(~dst);
     EXPECT_EQ(area, blackCount + whiteCount);
+}
+
+TEST(NickBinarization, NonParaNickShouldSrcMatCV8UC1)
+{
+    const auto fileName = "images/Lenna.png";
+    auto src = cv::imread(fileName, cv::IMREAD_COLOR);
+    cv::Mat dst;
+
+    ASSERT_THROW(NickBinarization::Binarize(src, dst, 10), std::invalid_argument);
 }
