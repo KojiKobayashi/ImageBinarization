@@ -31,7 +31,7 @@ namespace ImageBinarization
         cv::integral(border, sum, sqsum);
 
         dst = cv::Mat(src.rows, src.cols, CV_8UC1);
-        auto kernelArea = (double)(kernelSize*kernelSize);
+        auto kernelArea = double(kernelSize*kernelSize);
         auto invKernelArea = 1.0 / kernelArea;
         auto invR = 1.0 / r;
 
