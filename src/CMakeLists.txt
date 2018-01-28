@@ -12,4 +12,8 @@ add_library(ImageBinarization STATIC
 	NiblackBinarization.cpp
 	NickBinarization.cpp
 	SauvolaBinarization.cpp
+	NatBinarization.h
+	NiblackBinarization.h
+	NickBinarization.h
+	SauvolaBinarization.h
 )
